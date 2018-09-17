@@ -1,0 +1,44 @@
+%% Project and Code Description
+% Make a 3-Prop VSTOL fly.
+
+%% Initial Values from Previous Team
+
+
+%% Initial Values of Fall 2018 Team
+weightOfPlane = 1.6; %kg
+topCruiseSpeed = 50; %m/s
+wingSpan = 1; %m
+chord = 0.2; %m
+SF = 2.5;
+
+% Distance and Time of Flight Goals:
+step1climbDistanc = 100 %Climb to 100 m (VTOL)
+%Loite00r in VTOL mode for 2 minutes
+%Transition to forward flight
+%Climb to 150 m
+%Fly in straight line at 50 m/s
+%Loiter for 5 minutes
+%Descend to 100 m
+%Transition to VTOL mode
+%Land on takeoff platform
+
+
+%% NACA #### Airfoil 1 Info
+
+
+%% Universe Contstants
+g = 9.81; %m/s^2
+
+%% Calculations
+weightOfPlaneSF = weightOfPlane * 2.5;
+minLiftRequired = g * weightOfPlaneSF;
+wingArea = wingSpan * chord;
+
+lift = 0;
+
+%% Print Statements
+fprintf('Weight of Plane: -----------> %2.2f kg\n', weightOfPlane);
+fprintf('Weight of Plane with SF: ---> %2.2f kg\n', weightOfPlaneSF);
+fprintf('Minimum Lift Required: -----> %2.2f N\n', minLiftRequired);
+fprintf('Wing Area: -----------------> %2.2f m^2\n', wingArea);
+
