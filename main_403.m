@@ -1,5 +1,6 @@
 %% Project and Code Description
 % Make a 3-Prop VSTOL fly.
+clear; clc;
 
 %% Initial Values from Previous Team
 
@@ -16,25 +17,39 @@ SF = 1.5;
 motor{1}.Info = 'MN3110-17 KV700, APC 11x4.7';
 motor{1}.Vol = 14.8; %V
 motor{1}.MaxAmp = 18.7; %A
+motor{1}.Amp75 = 10.7;
 motor{1}.LiftMax = 1.540; %kg
 motor{1}.Lift50 = 0.590; %kg
+motor{1}.Lift65 = 0.800; %kg
+motor{1}.Lift75 = 1.080; %kg
 
 % Motor/Propeller 2 Info MN3110-17 KV780, APC 12x3.8
 motor{2}.Info = 'MN3110-17 KV780, APC 12x3.8';
 motor{2}.Vol = 11.1; %V
 motor{2}.MaxAmp = 18.2; %A
+motor{2}.Amp75 = 10.6;
 motor{2}.LiftMax = 1.230; %kg
 motor{2}.Lift50 = 0.450; %kg
 motor{2}.Lift65 = 0.680; %kg
 motor{2}.Lift75 = 0.900; %kg
 
-% Battery 1 Info
-bat1cap = 5.1; %Ah
-bat1dis = 10; %C
-bat1Weight = 0; %? 
-bat1Voltage = 0; %?
+% Battery 1 Info GensAce 5200mAh 11.1V
+bat{1}.Info = 'GensAce 5200mAh 11.1V'; %Ah
+bat{1}.Cap = 5.2; %Ah
+bat{1}.Dis = 10; %C
+bat{1}.Weight = 0.315; %kg 
+bat{1}.Vol = 11.1; %V
+
+% Battery 2
+bat{2}.Info = 'Zippy Compact 3700mAh 3s 40c Lipo Pack'; %Ah
+bat{2}.Cap = 3.7; %Ah
+bat{2}.Dis = 40; %C
+bat{2}.Weight = 0.317; %kg 
+bat{2}.Vol = 11.1; %V
 
 % Distance and Time of Flight Goals for Each Step:
+% Assume each step happens instantaneously
+% Assume everything is done at full power unless directed not to
 s1_climbV = 100;    %Climb to 100 m (VTOL)
 s2_loiter = 2;      %Loiter in VTOL mode for 2 minutes
 s3_tranistion = 0;  %Transition to forward flight
@@ -59,27 +74,43 @@ wingArea = wingSpan * chord;
 lift = 0;
 
 motorType = 2; %adjust this to switch between motors
-maxTotalLiftV = 3 * motor{motorType}.LiftMax;
+batType = 2; %adjust this to switch between batteries
+
 max50LiftV = 3 * motor{motorType}.Lift50;
 max65LiftV = 3 * motor{motorType}.Lift65;
 max75LiftV = 3 * motor{motorType}.Lift75;
-batMaxAmp = bat1cap * bat1dis; %A
+maxTotalLiftV = 3 * motor{motorType}.LiftMax;
+
+batMaxAmp = bat{batType}.Cap * bat{batType}.Dis; %A
 totalMotorAmpDraw = 3 * motor{motorType}.MaxAmp;
+maxFlightTime100 = (bat{batType}.Cap/totalMotorAmpDraw)*60; 
+maxFlightTime75 = (bat{batType}.Cap/(3 * motor{motorType}.Amp75))*60; 
 
 %% Print Statements
+fprintf('---\n');
 fprintf('Weight of Plane: ---------------> %2.2f kg\n', weightOfPlane);
 fprintf('SF: ----------------------------> %2.1f \n', SF);
 fprintf('Weight of Plane with SF: -------> %2.2f kg\n', weightOfPlaneSF);
 fprintf('Minimum Lift Required: ---------> %2.2f N\n', minLiftRequired);
 fprintf('Wing Area: ---------------------> %2.2f m^2\n', wingArea);
 fprintf('---\n');
-fprintf('Motor Info: --------------------> %s \n', motor{motorType}.Info);
-fprintf('Motor Voltage: -----------------> %2.2f A\n', motor{motorType}.Vol);
-fprintf('---\n');
-fprintf('Total Amp Draw of All Motors: --> %2.2f A\n', totalMotorAmpDraw);
-fprintf('Max Total Lift (Vert): ---------> %2.2f kg\n', maxTotalLiftV);
+fprintf('Motor/Propeller Info: ----------> %s \n', motor{motorType}.Info);
+fprintf('Motor Voltage: -----------------> %2.2f V\n', motor{motorType}.Vol);
 fprintf('50 Percent Total Lift (Vert): --> %2.2f kg\n', max50LiftV);
 fprintf('65 Percent Total Lift (Vert): --> %2.2f kg\n', max65LiftV);
 fprintf('75 Percent Total Lift (Vert): --> %2.2f kg\n', max75LiftV);
+fprintf('Max Total Lift (Vert): ---------> %2.2f kg\n', maxTotalLiftV);
+fprintf('Total Amp Draw of All Motors: --> %2.2f A\n', totalMotorAmpDraw);
 fprintf('---\n');
+fprintf('Battery Info: ------------------> %s \n', bat{batType}.Info);
 fprintf('Max Battery Current Draw: ------> %2.2f A\n', batMaxAmp);
+fprintf('Flight Time Max Thrust: --------> %2.2f Minutes\n', maxFlightTime100);
+fprintf('Flight Time 75 Percent Thrust: -> %2.2f Minutes\n', maxFlightTime75);
+
+%Warnings
+%Check compatibilty of motor and battery
+if (motor{motorType}.Vol ~= bat{batType}.Vol)
+    fprintf('WARNING: Motor and Battery are Incompatible\n');
+else
+    fprintf('Motor and Battery are Compatible\n');
+end
