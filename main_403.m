@@ -17,7 +17,7 @@ SF = 1.5;
 motor{1}.Info = 'MN3110-17 KV700, APC 11x4.7';
 motor{1}.Vol = 14.8; %V
 motor{1}.MaxAmp = 18.7; %A
-motor{1}.Amp75 = 10.7;
+motor{1}.Amp75 = 10.7; %A
 motor{1}.LiftMax = 1.540; %kg
 motor{1}.Lift50 = 0.590; %kg
 motor{1}.Lift65 = 0.800; %kg
@@ -27,7 +27,7 @@ motor{1}.Lift75 = 1.080; %kg
 motor{2}.Info = 'MN3110-17 KV780, APC 12x3.8';
 motor{2}.Vol = 11.1; %V
 motor{2}.MaxAmp = 18.2; %A
-motor{2}.Amp75 = 10.6;
+motor{2}.Amp75 = 10.6; %A
 motor{2}.LiftMax = 1.230; %kg
 motor{2}.Lift50 = 0.450; %kg
 motor{2}.Lift65 = 0.680; %kg
@@ -47,6 +47,27 @@ bat{2}.Dis = 40; %C
 bat{2}.Weight = 0.317; %kg 
 bat{2}.Vol = 11.1; %V
 
+% Battery 3
+bat{3}.Info = 'ZIPPY Compact 3700mAh 4s 60c Lipo Pack'; %Ah
+bat{3}.Cap = 3.7; %Ah
+bat{3}.Dis = 60; %C
+bat{3}.Weight = 0.442; %kg 
+bat{3}.Vol = 14.8; %V
+
+% Battery 4
+bat{3}.Info = 'Multistar High Capacity 16000mAh 4S 12C Multi-Rotor Lipo Pack w/XT90'; %Ah
+bat{3}.Cap = 16; %Ah
+bat{3}.Dis = 12; %C
+bat{3}.Weight = 1.366; %kg
+bat{3}.Vol = 14.8; %V
+
+% Battery 5
+bat{4}.Info = 'Turnigy 5000mAh 3S 20C Lipo Pack w/XT-60'; %Ah
+bat{4}.Cap = 5; %Ah
+bat{4}.Dis = 20; %C
+bat{4}.Weight = 0.360; %kg
+bat{4}.Vol = 11.1; %V
+
 % Distance and Time of Flight Goals for Each Step:
 % Assume each step happens instantaneously
 % Assume everything is done at full power unless directed not to
@@ -59,7 +80,6 @@ s6_loiterC = 5;     %Loiter for 5 minutes
 s7_descendC = 100;  %Descend to 100 m
 s8_transition = 0;  %Transition to VTOL mode
 s9_land = 0;        %Land on takeoff platform
-
 
 % NACA #### Airfoil 1 Info
 
@@ -74,7 +94,7 @@ wingArea = wingSpan * chord;
 lift = 0;
 
 motorType = 2; %adjust this to switch between motors
-batType = 2; %adjust this to switch between batteries
+batType = 4; %adjust this to switch between batteries
 
 max50LiftV = 3 * motor{motorType}.Lift50;
 max65LiftV = 3 * motor{motorType}.Lift65;
@@ -88,9 +108,9 @@ maxFlightTime75 = (bat{batType}.Cap/(3 * motor{motorType}.Amp75))*60;
 
 %% Print Statements
 fprintf('---\n');
-fprintf('Weight of Plane: ---------------> %2.2f kg\n', weightOfPlane);
+fprintf('Weight of Aircraft: ------------> %2.2f kg\n', weightOfPlane);
 fprintf('SF: ----------------------------> %2.1f \n', SF);
-fprintf('Weight of Plane with SF: -------> %2.2f kg\n', weightOfPlaneSF);
+fprintf('Weight of Aircraft with SF: ----> %2.2f kg\n', weightOfPlaneSF);
 fprintf('Minimum Lift Required: ---------> %2.2f N\n', minLiftRequired);
 fprintf('Wing Area: ---------------------> %2.2f m^2\n', wingArea);
 fprintf('---\n');
@@ -106,6 +126,7 @@ fprintf('Battery Info: ------------------> %s \n', bat{batType}.Info);
 fprintf('Max Battery Current Draw: ------> %2.2f A\n', batMaxAmp);
 fprintf('Flight Time Max Thrust: --------> %2.2f Minutes\n', maxFlightTime100);
 fprintf('Flight Time 75 Percent Thrust: -> %2.2f Minutes\n', maxFlightTime75);
+fprintf('Remaining Weight of Aircraft: --> %2.2f kg\n', (weightOfPlane - bat{batType}.Weight));
 
 %Warnings
 %Check compatibilty of motor and battery
