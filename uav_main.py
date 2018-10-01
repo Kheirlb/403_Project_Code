@@ -10,7 +10,13 @@ class Window(QtWidgets.QMainWindow, Ui_MainWindow):
         QtWidgets.QMainWindow.__init__(self)
         Ui_MainWindow.__init__(self)
         self.setupUi(self)
-        #self.initUI()
+        self.initUI()
+
+    def initUI(self):
+        self.transBut.clicked.connect(self.)
+        self.leftSl.valueChanged.connect(self.leftSlChange)
+
+    def
 
 def main():
     app = QtWidgets.QApplication(sys.argv)
