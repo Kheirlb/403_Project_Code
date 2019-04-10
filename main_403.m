@@ -25,7 +25,7 @@ motor{1}.Lift75 = 1.080; %kg
 motor{1}.Weight = 0.1; %kg
 
 % Motor/Propeller 2 Info MN3110-17 KV780, APC 12x3.8
-motor{2}.Info = 'MN3110-17 KV780, APC 12x3.8';
+motor{2}.Info = 'MN3110-17 KV780, APC 12x3.8 at 11.1';
 motor{2}.Vol = 11.1; %V
 motor{2}.MaxAmp = 18.2; %A
 motor{2}.Amp75 = 10.6; %A
@@ -46,6 +46,17 @@ motor{3}.Lift65 = 0.0; %kg
 motor{3}.Lift75 = 0.0; %kg
 motor{3}.Weight = 0.125; %kg
 
+% Motor/Propeller 4 Info MN3110-17 KV780, APC 12x3.8
+motor{4}.Info = 'MN3110-17 KV780, APC 12x3.8 at 14.8';
+motor{4}.Vol = 14.8; %V
+motor{4}.MaxAmp = 18.2; %A
+motor{4}.Amp75 = 10.6; %A
+motor{4}.LiftMax = 1.872;%1.440; %kg
+motor{4}.Lift50 = 0.550; %kg
+motor{4}.Lift65 = 0.730; %kg
+motor{4}.Lift75 = 0.1030; %kg
+motor{4}.Weight = 0.1; %kg
+
 % Battery 1 Info GensAce 5200mAh 11.1V
 bat{1}.Info = 'GensAce 5200mAh 11.1V'; %Ah
 bat{1}.Cap = 5.2; %Ah
@@ -61,25 +72,32 @@ bat{2}.Weight = 0.317; %kg
 bat{2}.Vol = 11.1; %V
 
 % Battery 3
-bat{3}.Info = 'ZIPPY Compact 3700mAh 4s 60c Lipo Pack'; %Ah
-bat{3}.Cap = 3.7; %Ah
-bat{3}.Dis = 60; %C
-bat{3}.Weight = 0.442; %kg 
-bat{3}.Vol = 14.8; %V
-
-% Battery 4
 bat{3}.Info = 'Multistar High Capacity 16000mAh 4S 12C Multi-Rotor Lipo Pack w/XT90'; %Ah
 bat{3}.Cap = 16; %Ah
 bat{3}.Dis = 12; %C
 bat{3}.Weight = 1.366; %kg
 bat{3}.Vol = 14.8; %V
 
-% Battery 5
+% Battery 4
 bat{4}.Info = 'Turnigy 5000mAh 3S 20C Lipo Pack w/XT-60'; %Ah
 bat{4}.Cap = 5; %Ah
 bat{4}.Dis = 20; %C
 bat{4}.Weight = 0.360; %kg
 bat{4}.Vol = 11.1; %V
+
+% Battery 5
+bat{5}.Info = 'Hiperion G3'; %Ah
+bat{5}.Cap = 5.0; %Ah
+bat{5}.Dis = 35; %C
+bat{5}.Weight = 0.545; %kg 
+bat{5}.Vol = 14.8; %V
+
+% Battery 6
+bat{6}.Info = 'Venom Drive'; %Ah
+bat{6}.Cap = 5.0; %Ah
+bat{6}.Dis = 50; %C
+bat{6}.Weight = 0.475; %kg 
+bat{6}.Vol = 14.8; %V
 
 % ESC 1
 esc{1}.Weight = 0.025; %kg
@@ -113,8 +131,8 @@ wingArea = wingSpan * chord;
 
 lift = 0;
 
-motorType = 2; %adjust this to switch between motors
-batType = 2; %adjust this to switch between batteries
+motorType = 4; %adjust this to switch between motors
+batType = 5; %adjust this to switch between batteries
 escType = 1;
 servoType = 1;
 
